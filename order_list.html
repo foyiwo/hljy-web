@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>待缴学费</title>
+	<title>缴费中心</title>
 	<meta name="keywords" content="" />
 	<meta charset="UTF-8">
   	<meta name="description" content="" />
@@ -60,20 +60,32 @@
 		    border-radius: 15px;
 			
 		}
-		.Logout{
+		.main-header{
 			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		.Logout{
+			float: right;
 			text-align: right;
 			color: #b22;
 		}
 		.endDate-value{
 			color: #b22;
 		}
+		.main-header-username{
+			font-size: 12px;
+			color: #000;
+		}
 	</style>
 </head>
 <body>
 	<div class="main">
 		
-		<div class="Logout">注销</div>
+		<div class="main-header">
+			<span class="main-header-username"></span>
+			<span class="Logout">注销</span>
+		</div>
 		<div class="order-list">
 			
 		</div>
@@ -109,6 +121,29 @@
 		}
 		return userToken;
 	}
+	function initHeaderName(){
+		//渲染数据
+		$.ajax({
+				type: "GET",
+				url: window.httpHost+"/member/getCurrentMember",
+				dataType: "json",
+				headers: {
+					"Authorization": this.getUserToken()
+				},
+				contentType: "application/json;charset=UTF-8",
+				success: function(msg){
+     				//console.log(msg);
+					if(msg.code == 200){
+						$(".main-header-username").text("学员："+msg.data.name);
+					}else{
+     					alert(msg.message);
+					}
+					
+   				}
+
+		});
+	}
+
 
 	function initOrderList(){
 		//渲染数据
@@ -154,7 +189,35 @@
 		});
 	}
 
+	function unBindingMemberWxPublic(){
+		$.ajax({
+				type: "GET",
+				url:"http://hljy.foyiwo.com/api/web/wx/unBindingMemberWxPublic",
+				dataType: "json",
+				headers: {
+					"Authorization": this.getUserToken()
+				},
+				contentType: "application/json;charset=UTF-8",
+				success: function(msg){
+					
+     				//console.log(msg);
+					if(msg.code == 200){
+						
+					}else if(msg.code == 406){
+						//window.location.href = msg.data;
+					}else{
+     					//alert(msg.message);
+					}
+					window.localStorage.setItem("userToken","");
+					window.location.href = "login.html";
+					
+   				}
+
+			});
+	}
+
 	function isBindingWxPublicAndMember(){
+
 		$.ajax({
 				type: "GET",
 				url:"http://hljy.foyiwo.com/api/web/wx/isBindingWxPublicAndMember",
@@ -237,13 +300,15 @@
 		//检测是否微信授权
 		isBindingWxPublicAndMember();
 
+		initHeaderName();
+		
 		//初始化数据
 		initOrderList();
 
 		//注销
 		$(".Logout").click(function(){
-			window.localStorage.setItem("userToken","");
-			window.location.href = "login.html";
+			unBindingMemberWxPublic();
+			
 		});
 
 		

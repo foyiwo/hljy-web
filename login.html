@@ -16,7 +16,7 @@
 			margin-right: 10px;
 		}
 		.header{
-			font-size: 20px;
+			font-size: 25px;
 			font-weight: 700;
 			color: #000;
 			margin-top: 30px;
@@ -24,28 +24,36 @@
 		}
 		.username-password-div{
 			border-bottom: 1px #ccc solid;
-			margin: 5px 0;
+			margin: 20px 0;
 			padding-bottom: 5px;
+
 		}
 		.username-password-span{
-			    font-size: 14px;
+			    font-size: 16px;
 			    /* margin-right: 20px; */
 			    width: 20%;
 			    display: inline-block;
 		}
 		.username-password-input{
 			border: none;
-			line-height: 20px;
+			line-height: 30px;
 			width: 72%
 		}
 		.login-btn{
 			margin-top: 50px;
-			background-color: #960;
+			background-color: #b22;
 			text-align: center;
 			color: #fff;
 			padding: 5px 0;
 			font-size: 14px;
-			line-height: 25px;
+			line-height: 30px;
+		}
+
+		input::-webkit-input-placeholder {
+    		/* placeholder颜色 */
+    		color: #aab2bd;
+    		/* placeholder字体大小 */
+    		font-size: 14px;
 		}
 	</style>
 </head>
@@ -54,7 +62,7 @@
 		<div class="header">欢迎登录</div>	
 		<div class="username-password">
 			<div class="username-password-div">
-				<span class="username-password-span">账号</span><input placeholder="输入身份证号码/学号" class="username-password-input username-input" type="text" name="username">
+				<span class="username-password-span">账号</span><input placeholder="输入身份证号码或学号" class="username-password-input username-input" type="text" name="username">
 			</div>
 			<div class="username-password-div">
 				<span class="username-password-span">密码</span><input placeholder="输入密码" class="username-password-input password-input" type="text" name="password">
