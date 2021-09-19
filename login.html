@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>登录</title>
+	<meta name="keywords" content="" />
+	<meta charset="UTF-8">
+  	<meta name="description" content="" />
+  	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+  	<meta name="format-detection" content="telephone=no" />
+  	<meta name="apple-mobile-web-app-capable" content="yes" />
+  	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+	<style type="text/css">
+		.main{
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+		.header{
+			font-size: 20px;
+			font-weight: 700;
+			color: #000;
+			margin-top: 30px;
+			margin-bottom: 50px; 
+		}
+		.username-password-div{
+			border-bottom: 1px #ccc solid;
+			margin: 5px 0;
+			padding-bottom: 5px;
+		}
+		.username-password-span{
+			    font-size: 14px;
+			    /* margin-right: 20px; */
+			    width: 20%;
+			    display: inline-block;
+		}
+		.username-password-input{
+			border: none;
+			line-height: 20px;
+			width: 72%
+		}
+		.login-btn{
+			margin-top: 50px;
+			background-color: #960;
+			text-align: center;
+			color: #fff;
+			padding: 5px 0;
+			font-size: 14px;
+			line-height: 25px;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="header">欢迎登录</div>	
+		<div class="username-password">
+			<div class="username-password-div">
+				<span class="username-password-span">账号</span><input placeholder="输入身份证号码/学号" class="username-password-input username-input" type="text" name="username">
+			</div>
+			<div class="username-password-div">
+				<span class="username-password-span">密码</span><input placeholder="输入密码" class="username-password-input password-input" type="text" name="password">
+			</div>
+		</div>
+		<div class="login-btn">
+			登录
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function(){
+		$(".login-btn").click(function(){
+			var username = $(".username-input").val();
+			var password = $(".password-input").val();
+			var type = 1;
+			var dataInput = {
+					"userName": username,
+					"passWord": password,
+					"type": 1
+				};
+			var dataJson = JSON.stringify(dataInput);
+			$.ajax({
+				type: "POST",
+				url:"http://hljy.foyiwo.com/api/web/member/loginByuserName",
+				dataType: "json",
+				data: dataJson,
+				contentType: "application/json;charset=UTF-8",
+				success: function(msg){
+     				console.log(msg);
+
+					if(msg.code == 200){
+						window.localStorage.setItem('userToken', msg.data.token);
+						window.location.href = "order_list.html";
+					}else{
+     					alert(msg.message);
+					}
+					
+   				}
+
+			});
+		})
+	})
+</script>
+</html>
